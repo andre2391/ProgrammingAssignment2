@@ -31,14 +31,16 @@ makeCacheMatrix <- function(x = matrix()) {
 ## Write a short comment describing this function
 
 cacheSolve <- function(x, ...) {
-  if (x == makeCacheMatrix$get && !makeCacheMatrix$getinv == matrix(nrow = 2, ncol = 2)){
-    return(makeCacheMatrix$getinv)  
+  if (!identical(x$getinv(), matrix(nrow = 2, ncol = 2))){
+    message("Retreiving from cache")
+    x$getinv() 
   }
   else {
-    makeCacheMatrix$set(x)
-    makeCacheMatrix$setinv(solve(x))
-    print(makeCachematrix$getinv())
+    newMatrix <- x$get()
+    x$set(newMatrix)
+    x$setinv(solve(newMatrix,...))
+    message("Computing inverse")
+    x$getinv()
   }
   
-        ## Return a matrix that is the inverse of 'x'
 }
